@@ -1,13 +1,14 @@
-package concurrent
+package concurrent_test
 
 import (
 	"context"
 	"fmt"
 	"time"
+	"github.com/modern-go/concurrent"
 )
 
 func ExampleUnboundedExecutor_Go() {
-	executor := NewUnboundedExecutor()
+	executor := concurrent.NewUnboundedExecutor()
 	executor.Go(func(ctx context.Context) {
 		fmt.Println("abc")
 	})
@@ -16,7 +17,7 @@ func ExampleUnboundedExecutor_Go() {
 }
 
 func ExampleUnboundedExecutor_StopAndWaitForever() {
-	executor := NewUnboundedExecutor()
+	executor := concurrent.NewUnboundedExecutor()
 	executor.Go(func(ctx context.Context) {
 		everyMillisecond := time.NewTicker(time.Millisecond)
 		for {
@@ -35,4 +36,16 @@ func ExampleUnboundedExecutor_StopAndWaitForever() {
 	// output:
 	// goroutine exited
 	// exectuor stopped
+}
+
+func ExampleUnboundedExecutor_Go_panic() {
+	concurrent.HandlePanic = func(recovered interface{}, file string, line int) {
+		fmt.Println("panic logged")
+	}
+	executor := concurrent.NewUnboundedExecutor()
+	executor.Go(func(ctx context.Context) {
+		panic("!!!")
+	})
+	time.Sleep(time.Second)
+	// output: panic logged
 }

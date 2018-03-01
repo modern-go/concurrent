@@ -14,11 +14,10 @@ import (
 var LogInfo = func(event string, properties ...interface{}) {
 }
 
-// LogPanic logs goroutine panic
-var LogPanic = func(recovered interface{}, properties ...interface{}) interface{} {
+// HandlePanic logs goroutine panic by default
+var HandlePanic = func(recovered interface{}, file string, line int) {
 	fmt.Println(fmt.Sprintf("paniced: %v", recovered))
 	debug.PrintStack()
-	return recovered
 }
 
 // StopSignal will not be recovered, will propagate to upper level goroutine
@@ -63,7 +62,7 @@ func (executor *UnboundedExecutor) Go(handler func(ctx context.Context)) {
 		defer func() {
 			recovered := recover()
 			if recovered != nil && recovered != StopSignal {
-				LogPanic(recovered)
+				HandlePanic(recovered, file, line)
 			}
 			executor.activeGoroutinesMutex.Lock()
 			defer executor.activeGoroutinesMutex.Unlock()
