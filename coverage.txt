@@ -1,0 +1,24 @@
+
+mode: set
+github.com/modern-go/concurrent/go_above_19.go:13.20,15.2 1 1
+github.com/modern-go/concurrent/unbounded_executor.go:14.61,15.2 0 0
+github.com/modern-go/concurrent/unbounded_executor.go:18.83,22.2 3 0
+github.com/modern-go/concurrent/unbounded_executor.go:44.48,52.2 2 1
+github.com/modern-go/concurrent/unbounded_executor.go:56.74,62.12 6 1
+github.com/modern-go/concurrent/unbounded_executor.go:62.12,63.16 1 1
+github.com/modern-go/concurrent/unbounded_executor.go:72.3,72.24 1 1
+github.com/modern-go/concurrent/unbounded_executor.go:63.16,65.51 2 1
+github.com/modern-go/concurrent/unbounded_executor.go:68.4,70.45 3 1
+github.com/modern-go/concurrent/unbounded_executor.go:65.51,67.5 1 0
+github.com/modern-go/concurrent/unbounded_executor.go:77.43,79.2 1 0
+github.com/modern-go/concurrent/unbounded_executor.go:83.57,85.2 1 1
+github.com/modern-go/concurrent/unbounded_executor.go:89.69,91.6 2 1
+github.com/modern-go/concurrent/unbounded_executor.go:91.6,93.10 2 1
+github.com/modern-go/concurrent/unbounded_executor.go:98.3,98.33 1 1
+github.com/modern-go/concurrent/unbounded_executor.go:94.24,94.24 0 1
+github.com/modern-go/concurrent/unbounded_executor.go:95.21,96.10 1 0
+github.com/modern-go/concurrent/unbounded_executor.go:98.33,100.4 1 1
+github.com/modern-go/concurrent/unbounded_executor.go:104.59,107.58 3 1
+github.com/modern-go/concurrent/unbounded_executor.go:115.2,115.13 1 1
+github.com/modern-go/concurrent/unbounded_executor.go:107.58,108.16 1 1
+github.com/modern-go/concurrent/unbounded_executor.go:108.16,113.4 2 0
