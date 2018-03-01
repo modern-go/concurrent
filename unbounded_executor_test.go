@@ -39,7 +39,7 @@ func ExampleUnboundedExecutor_StopAndWaitForever() {
 }
 
 func ExampleUnboundedExecutor_Go_panic() {
-	concurrent.HandlePanic = func(recovered interface{}, file string, line int, funcName string) {
+	concurrent.HandlePanic = func(recovered interface{}, funcName string) {
 		fmt.Println(funcName)
 	}
 	executor := concurrent.NewUnboundedExecutor()

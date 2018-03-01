@@ -11,8 +11,8 @@ import (
 )
 
 // HandlePanic logs goroutine panic by default
-var HandlePanic = func(recovered interface{}, file string, line int, funcName string) {
-	ErrorLogger.Println(fmt.Sprintf("%s defined at %s:%v panic: %v", funcName, file, line, recovered))
+var HandlePanic = func(recovered interface{}, funcName string) {
+	ErrorLogger.Println(fmt.Sprintf("%s panic: %v", funcName, recovered))
 	ErrorLogger.Println(string(debug.Stack()))
 }
 
@@ -26,7 +26,7 @@ type UnboundedExecutor struct {
 	cancel                context.CancelFunc
 	activeGoroutinesMutex *sync.Mutex
 	activeGoroutines      map[string]int
-	HandlePanic           func(recovered interface{}, file string, line int, funcName string)
+	HandlePanic           func(recovered interface{}, funcName string)
 }
 
 // GlobalUnboundedExecutor has the life cycle of the program itself
@@ -64,9 +64,9 @@ func (executor *UnboundedExecutor) Go(handler func(ctx context.Context)) {
 			recovered := recover()
 			if recovered != nil && recovered != StopSignal {
 				if executor.HandlePanic == nil {
-					HandlePanic(recovered, file, line, funcName)
+					HandlePanic(recovered, funcName)
 				} else {
-					executor.HandlePanic(recovered, file, line, funcName)
+					executor.HandlePanic(recovered, funcName)
 				}
 			}
 			executor.activeGoroutinesMutex.Lock()
