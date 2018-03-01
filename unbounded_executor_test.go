@@ -39,13 +39,16 @@ func ExampleUnboundedExecutor_StopAndWaitForever() {
 }
 
 func ExampleUnboundedExecutor_Go_panic() {
-	concurrent.HandlePanic = func(recovered interface{}, file string, line int) {
-		fmt.Println("panic logged")
+	concurrent.HandlePanic = func(recovered interface{}, file string, line int, funcName string) {
+		fmt.Println(funcName)
 	}
 	executor := concurrent.NewUnboundedExecutor()
-	executor.Go(func(ctx context.Context) {
-		panic("!!!")
-	})
+	executor.Go(willPanic)
 	time.Sleep(time.Second)
-	// output: panic logged
+	// output:
+	// github.com/modern-go/concurrent_test.willPanic
+}
+
+func willPanic(ctx context.Context) {
+	panic("!!!")
 }
