@@ -4,9 +4,9 @@ import (
 	"context"
 	"fmt"
 	"runtime"
+	"runtime/debug"
 	"sync"
 	"time"
-	"runtime/debug"
 )
 
 // LogInfo logs informational message, for example
