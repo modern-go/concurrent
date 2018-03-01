@@ -78,13 +78,13 @@ func (executor *UnboundedExecutor) Stop() {
 	executor.cancel()
 }
 
-// Stop cancel all goroutines started by this executor and
+// StopAndWaitForever cancel all goroutines started by this executor and
 // wait until all goroutines exited
 func (executor *UnboundedExecutor) StopAndWaitForever() {
 	executor.StopAndWait(context.Background())
 }
 
-// Stop cancel all goroutines started by this executor and wait.
+// StopAndWait cancel all goroutines started by this executor and wait.
 // Wait can be cancelled by the context passed in.
 func (executor *UnboundedExecutor) StopAndWait(ctx context.Context) {
 	executor.cancel()
