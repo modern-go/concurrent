@@ -110,7 +110,7 @@ func (executor *UnboundedExecutor) checkGoroutines() bool {
 	defer executor.activeGoroutinesMutex.Unlock()
 	for startFrom, count := range executor.activeGoroutines {
 		if count > 0 {
-			InfoLogger.Println("event!unbounded_executor.still waiting goroutines to quit",
+			InfoLogger.Println("UnboundedExecutor is still waiting goroutines to quit",
 				"startFrom", startFrom,
 				"count", count)
 			return false
