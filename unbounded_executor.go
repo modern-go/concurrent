@@ -93,19 +93,19 @@ func (executor *UnboundedExecutor) StopAndWaitForever() {
 func (executor *UnboundedExecutor) StopAndWait(ctx context.Context) {
 	executor.cancel()
 	for {
-		fiveSeconds := time.NewTimer(time.Millisecond * 100)
+		oneHundredMilliseconds := time.NewTimer(time.Millisecond * 100)
 		select {
-		case <-fiveSeconds.C:
+		case <-oneHundredMilliseconds.C:
+			if executor.checkNoActiveGoroutines() {
+				return
+			}
 		case <-ctx.Done():
-			return
-		}
-		if executor.checkGoroutines() {
 			return
 		}
 	}
 }
 
-func (executor *UnboundedExecutor) checkGoroutines() bool {
+func (executor *UnboundedExecutor) checkNoActiveGoroutines() bool {
 	executor.activeGoroutinesMutex.Lock()
 	defer executor.activeGoroutinesMutex.Unlock()
 	for startFrom, count := range executor.activeGoroutines {
