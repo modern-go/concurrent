@@ -16,9 +16,6 @@ var HandlePanic = func(recovered interface{}, funcName string) {
 	ErrorLogger.Println(string(debug.Stack()))
 }
 
-// StopSignal will not be recovered, will propagate to upper level goroutine
-const StopSignal = "STOP!"
-
 // UnboundedExecutor is a executor without limits on counts of alive goroutines
 // it tracks the goroutine started by it, and can cancel them when shutdown
 type UnboundedExecutor struct {
@@ -62,7 +59,9 @@ func (executor *UnboundedExecutor) Go(handler func(ctx context.Context)) {
 	go func() {
 		defer func() {
 			recovered := recover()
-			if recovered != nil && recovered != StopSignal {
+			// if you want to quit a goroutine without trigger HandlePanic
+			// use runtime.Goexit() to quit
+			if recovered != nil {
 				if executor.HandlePanic == nil {
 					HandlePanic(recovered, funcName)
 				} else {
@@ -70,8 +69,8 @@ func (executor *UnboundedExecutor) Go(handler func(ctx context.Context)) {
 				}
 			}
 			executor.activeGoroutinesMutex.Lock()
-			defer executor.activeGoroutinesMutex.Unlock()
 			executor.activeGoroutines[startFrom] -= 1
+			executor.activeGoroutinesMutex.Unlock()
 		}()
 		handler(executor.ctx)
 	}()
